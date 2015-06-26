@@ -15,7 +15,6 @@
 			<column name="spotify_track_id" type="varchar(1000)">
 			</column>
 			<column name="play_index" type="int">
-				<constraints nullable="false" unique="true"/>
 			</column>
 		</createTable>
 	</changeSet>

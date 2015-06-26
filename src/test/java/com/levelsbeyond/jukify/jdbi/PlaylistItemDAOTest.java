@@ -72,6 +72,28 @@ public class PlaylistItemDAOTest {
 
 	}
 
+	@Test
+	public void testGetRange() {
+		int id = dao.insertAtEnd("test");
+		assertThat(id).isGreaterThan(0);
+
+		int id2 = dao.insertAtEnd("test");
+		assertThat(id2).isGreaterThan(0);
+
+		int id3 = dao.insertAtEnd("test");
+		assertThat(id3).isGreaterThan(0);
+
+		int id4 = dao.insertAtEnd("test");
+		assertThat(id4).isGreaterThan(0);
+
+		PlaylistItem item2 = dao.getItem(id2);
+		PlaylistItem item3= dao.getItem(id3);
+
+		assertThat(dao.getItemsByIndexRange(item2.getPlayIndex(), item3.getPlayIndex())).containsOnly(item2, item3);
+
+	}
+
+
 	@AfterClass
 	public static void cleanupDao() {
 		dao.close();

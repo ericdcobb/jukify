@@ -1,3 +1,4 @@
 target/
 *.iml
 .idea/
+jukify.mv.db

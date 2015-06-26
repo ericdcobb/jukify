@@ -1,5 +1,7 @@
 package com.levelsbeyond.jukify.jdbi;
 
+import java.util.List;
+
 import com.levelsbeyond.jukify.api.PlaylistItem;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
@@ -37,17 +39,23 @@ public abstract class PlaylistItemDAO {
 	}
 
 	@Transaction
-	public int insertAfter(Integer targetPlayIndex, String spotifyTrackId  ) {
+	public int insertAfter(Integer targetPlayIndex, String spotifyTrackId) {
 		incrementAfter(targetPlayIndex);
 		return insert(spotifyTrackId, targetPlayIndex + 1);
 	}
 
 	@SqlUpdate("UPDATE playlist_items SET play_index = play_index + 1 WHERE play_index > :target_play_index ")
-	abstract void incrementAfter(@Bind("target_play_index")Integer targetPlayIndex);
+	abstract void incrementAfter(@Bind("target_play_index") Integer targetPlayIndex);
 
 	@SqlQuery("SELECT * FROM playlist_items WHERE id = :id")
 	@Mapper(PlaylistItemMapper.class)
 	public abstract PlaylistItem getItem(@Bind("id") Integer id);
+
+	@SqlQuery("SELECT * FROM playlist_items WHERE play_index >= :start_inclusive AND play_index <= :end_inclusive " +
+			"ORDER BY play_index ASC")
+	@Mapper(PlaylistItemMapper.class)
+	public abstract List<PlaylistItem> getItemsByIndexRange(@Bind("start_inclusive") Integer startInclusive, @Bind
+			("end_inclusive") Integer endEnclusive);
 
 	/**
 	 * close with no args is used to close the connection
