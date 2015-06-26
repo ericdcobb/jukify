@@ -57,6 +57,10 @@ public abstract class PlaylistItemDAO {
 	public abstract List<PlaylistItem> getItemsByIndexRange(@Bind("start_inclusive") Integer startInclusive, @Bind
 			("end_inclusive") Integer endEnclusive);
 
+	@SqlQuery("SELECT * FROM playlist_items WHERE play_index > :current_play_index ORDER BY play_index ASC LIMIT 1")
+	@Mapper(PlaylistItemMapper.class)
+	public abstract PlaylistItem nextItem(@Bind("current_play_index")Integer currentPlayIndex);
+
 	/**
 	 * close with no args is used to close the connection
 	 */

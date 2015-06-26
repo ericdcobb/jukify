@@ -161,4 +161,19 @@ public class PlaylistItemServiceImplTest {
 		assertThat(actualItem.isPresent()).isTrue();
 		assertThat(actualItem.get()).isEqualTo(item);
 	}
+
+	@Test
+	public void testGetNext(){
+		PlaylistItem item = new PlaylistItemBuilder()
+				.setSpotifyTrackId("test")
+				.setId(1)
+				.setPlayIndex(3)
+				.createPlaylistItem();
+
+		when(dao.nextItem(2)).thenReturn(item);
+		com.google.common.base.Optional<PlaylistItem> actualItem = playlistItemService.getNextItem(2);
+
+		assertThat(actualItem.isPresent()).isTrue();
+		assertThat(actualItem.get()).isEqualTo(item);
+	}
 }

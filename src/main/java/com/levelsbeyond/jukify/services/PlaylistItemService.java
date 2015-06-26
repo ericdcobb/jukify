@@ -17,4 +17,6 @@ public interface PlaylistItemService {
 	List<PlaylistItem> getItemsByRange(Integer startPlayIndexInclusive, Integer endPlayIndexInclusive);
 
 	Optional<PlaylistItem> getItemById(Integer id);
+
+	Optional<PlaylistItem> getNextItem(Integer currentPlayIndex);
 }

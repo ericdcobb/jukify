@@ -1,5 +1,6 @@
 package com.levelsbeyond.jukify.services;
 
+import static com.google.common.base.Optional.fromNullable;
 import static java.util.stream.Collectors.*;
 
 import java.util.ArrayList;
@@ -43,7 +44,12 @@ public class PlaylistItemServiceImpl implements PlaylistItemService {
 
 	@Override
 	public Optional<PlaylistItem> getItemById(Integer id) {
-		return Optional.fromNullable(dao.getItem(id));
+		return fromNullable(dao.getItem(id));
+	}
+
+	@Override
+	public Optional<PlaylistItem> getNextItem(Integer currentPlayIndex) {
+		return fromNullable(dao.nextItem(currentPlayIndex));
 	}
 
 }

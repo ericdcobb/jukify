@@ -88,4 +88,19 @@ public class PlaylistItemResourceTest {
 		assertThat(bigResponse.getEntity()).isEqualTo(defaultList);
 
 	}
+
+	@Test
+	public void testGetNext(){
+		PlaylistItem item = mock(PlaylistItem.class);
+
+		when(service.getNextItem(1)).thenReturn(Optional.fromNullable(item));
+		when(service.getNextItem(2)).thenReturn(Optional.absent());
+
+		Response response = resource.nextItem(1);
+		assertThat(response.getStatus()).isEqualTo(200);
+		assertThat(response.getEntity()).isEqualTo(item);
+
+		Response missing = resource.nextItem(2);
+		assertThat(missing.getStatus()).isEqualTo(404);
+	}
 }

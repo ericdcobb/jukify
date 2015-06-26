@@ -13,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.common.base.Optional;
 import com.levelsbeyond.jukify.api.PlaylistItem;
 import com.levelsbeyond.jukify.services.PlaylistItemService;
 
@@ -59,5 +60,16 @@ public class PlaylistItemResource {
 	public Response getItems(@QueryParam("playIndexStart") Integer playIndexStart, @QueryParam("playIndexEnd") Integer playIndexEnd) {
 		return ok(service.getItemsByRange(playIndexStart != null ? playIndexStart : 1, playIndexEnd != null ?
 				playIndexEnd : 10)).build();
+	}
+
+	@GET
+	@Path("/next")
+	public Response nextItem(@QueryParam("currentPlayIndex") Integer currentPlayIndex){
+		Optional<PlaylistItem> item = service.getNextItem(currentPlayIndex);
+		if(item.isPresent()){
+			return ok(item.get()).build();
+		} else {
+			return status(404).build();
+		}
 	}
 }
